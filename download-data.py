@@ -15,14 +15,15 @@ os.makedirs("data", exist_ok=True)
 try:
     if os.path.exists("data/iris.csv"):
         print("Data exists in local file system.")
+        df = pd.read_csv("data/iris.csv")
+        preview_data(df)
 
     else:
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
 
-        if response.status_code == 200:
-            with open("data/iris.csv", "w") as fh:
-                fh.write(response.text)
+        with open("data/iris.csv", "w") as fh:
+            fh.write(response.text)
 
         df = pd.read_csv("data/iris.csv", header=None, names=column_names)
         preview_data(df)
